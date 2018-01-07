@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  traefik:
+    image: traefik:alpine
+    deploy:
+      replicas: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - traefik_data:/acme.json
+    ports:
+      - 80:80
+      - 8080:8080
+      - 443:443
+    networks:
+      - traefik-net
+    configs:
+      - source: traefik_toml
+        target: /etc/traefik/traefik.toml
+configs:
+  traefik_toml:
+    file: ./traefik.toml
+volumes:
+  traefik_data:
+    driver: "cloudstor:aws"
+networks:
+  traefik-net:
+    external: true

@@ -1,0 +1,67 @@
+version: '3.4'
+
+services:
+  influxdb:
+    image: influxdb:alpine
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.port=8086"
+        - "traefik.frontend.rule=Host:influxdb.shackster.uk"
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-net"
+    volumes:
+      - "influxdb_data:/var/lib/influxdb"
+    networks:
+      - traefik-net
+
+  chronograf:
+    image: chronograf:alpine
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.port=8888"
+        - "traefik.frontend.rule=Host:chronograf.shackster.uk"
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-net"
+    volumes:
+      - "chronograf_data:/var/lib/chronograf"
+    environment:
+      INFLUXDB_URL: http://influxdb:8086
+      KAPACITOR_URL: http://kapacitor:9092
+    ports:
+      - 8888:8888
+    networks:
+      - traefik-net
+
+  kapacitor:
+    image: kapacitor:alpine
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.port=9092"
+        - "traefik.frontend.rule=Host:kapacitor.shackster.uk"
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-net"
+    volumes:
+      - "kapacitor_data:/var/lib/kapacitor"
+    environment:
+      KAPACITOR_HOSTNAME: kapacitor
+      KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
+    networks:
+      - traefik-net
+
+volumes:
+  influxdb_data:
+    driver: "cloudstor:aws"
+    driver_opts:
+      backing: "relocatable"
+      size: 1
+  chronograf_data:
+    driver: "cloudstor:aws"
+  kapacitor_data:
+    driver: "cloudstor:aws"
+
+networks:
+  traefik-net:
+    external: true

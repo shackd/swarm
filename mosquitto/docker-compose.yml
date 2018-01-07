@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    deploy:
+      replicas: 1
+    volumes:
+      - "mqtt_data:/mosquitto/data/"
+    ports:
+      - "1883:1883"
+
+volumes:
+  mqtt_data:
+    driver: "cloudstor:aws"

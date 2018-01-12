@@ -5,11 +5,23 @@ services:
     image: eclipse-mosquitto:latest
     deploy:
       replicas: 1
+      labels:
+        - "traefik.port=9001"
+        - "traefik.frontend.rule=Host:mqtt.shackster.uk"
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-net"
     volumes:
       - "mqtt_data:/mosquitto/data/"
     ports:
       - "1883:1883"
+      - "8883:8883"
+    networks:
+      - traefik-net
 
 volumes:
   mqtt_data:
     driver: "cloudstor:aws"
+
+networks:
+  traefik-net:
+    external: true

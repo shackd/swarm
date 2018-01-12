@@ -5,13 +5,18 @@ services:
     image: traefik:alpine
     deploy:
       replicas: 1
+      labels:
+        - "traefik.port=8080"
+        - "traefik.frontend.rule=Host:traefik.shackster.uk"
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-net"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - traefik_data:/acme.json
     ports:
-      - 80:80
-      - 8080:8080
-      - 443:443
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
     networks:
       - traefik-net
     configs:

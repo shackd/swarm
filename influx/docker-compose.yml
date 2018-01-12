@@ -29,8 +29,6 @@ services:
     environment:
       INFLUXDB_URL: http://influxdb:8086
       KAPACITOR_URL: http://kapacitor:9092
-    ports:
-      - 8888:8888
     networks:
       - traefik-net
 
@@ -38,11 +36,6 @@ services:
     image: kapacitor:alpine
     deploy:
       replicas: 1
-      labels:
-        - "traefik.port=9092"
-        - "traefik.frontend.rule=Host:kapacitor.shackster.uk"
-        - "traefik.enable=true"
-        - "traefik.docker.network=traefik-net"
     volumes:
       - "kapacitor_data:/var/lib/kapacitor"
     environment:

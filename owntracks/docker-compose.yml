@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  owntracks:
+    image: owntracks/recorderd:latest
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.port=8083"
+        - "traefik.frontend.rule=Host:owntracks.shackster.uk"
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-net"
+    ports:
+      - "1884:1883"
+      - "8884:8883"
+    environment:
+      OTR_HOST: "mosquitto"
+      OTR_PORT: "1883"
+    volumes:
+      - "owntracks_data:/owntracks"
+    networks:
+      - traefik-net
+volumes:
+  owntracks_data:
+    driver: "cloudstor:aws"
+networks:
+  traefik-net:
+    external: true

@@ -21,9 +21,18 @@ services:
     configs:
       - source: traefik_toml
         target: /etc/traefik/traefik.toml
+    secrets:
+      - source: traefik_htpasswd
+        target: /.htpasswd
+
 configs:
   traefik_toml:
     file: ./traefik.toml
+
+secrets:
+  traefik_htpasswd:
+      file: ./htpasswd
+
 volumes:
   traefik_data:
     driver: "cloudstor:aws"

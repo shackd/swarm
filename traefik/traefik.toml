@@ -94,6 +94,10 @@ defaultEntryPoints = ["http"]
 #
 address = ":8080"
 
+# To enable basic auth on the webui with 2 user/pass: test:test and test2:test2
+[web.auth.basic]
+usersFile = "/.htpasswd"
+
 ################################################################
 # Docker configuration backend
 ################################################################

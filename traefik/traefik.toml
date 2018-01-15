@@ -114,7 +114,7 @@ address = ":8080"
 # Optional
 # Default: ""
 #
-# domain = ""
+domain = "traefik.shackster.uk"
 
 # Enable watch docker changes.
 #
@@ -193,6 +193,7 @@ entryPoint = "https"
 # Optional
 #
 # onDemand = true
+onDemand = false
 
 # Enable certificate generation on frontends Host rules.
 #

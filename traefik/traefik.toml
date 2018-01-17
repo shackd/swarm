@@ -23,18 +23,21 @@
 # Default: ["http"]
 #
 # defaultEntryPoints = ["http"]
-defaultEntryPoints = ["http"]
+defaultEntryPoints = ["http","https"]
 
 # Entrypoints definition
 #
 # Optional
 # Default:
 # [entryPoints]
-#   [entryPoints.http
+#   [entryPoints.http]
 #   address = ":80"
 [entryPoints]
   [entryPoints.http]
   address = ":80"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
 
 # Traefik logs
 # Enabled by default and log to stdout
@@ -64,7 +67,7 @@ defaultEntryPoints = ["http"]
 #
 # Optional
 #
-# [accessLog]
+[accessLog]
 
 # Sets the file path for the access log. If not specified, stdout will be used.
 # Intermediate directories are created if necessary.
@@ -161,7 +164,7 @@ email = "dave@shackster.uk"
 #
 # Required
 #
-storage = "acme.json"
+storage = "/acme/acme.json"
 # or `storage = "traefik/acme/account"` if using KV store.
 
 # Entrypoint to proxy acme challenge/apply certificates to.
@@ -197,7 +200,6 @@ entryPoint = "https"
 # Optional
 #
 # onDemand = true
-onDemand = false
 
 # Enable certificate generation on frontends Host rules.
 #
@@ -216,9 +218,10 @@ onHostRule = true
 
 # Domains list.
 #
-# [[acme.domains]]
-# main = "local1.com"
-# sans = ["test1.local1.com", "test2.local1.com"]
+#[[acme.domains]]
+#main = "shackster.uk"
+#sans = ["traefik.shackster.uk"]
+
 # [[acme.domains]]
 # main = "local2.com"
 # sans = ["test1.local2.com", "test2.local2.com"]

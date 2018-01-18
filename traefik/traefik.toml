@@ -14,7 +14,7 @@
 # Optional
 # Default: "ERROR"
 #
-# logLevel = "ERROR"
+logLevel = "ERROR"
 
 # Entrypoints to be used by frontends that do not specify any entrypoint.
 # Each frontend can specify its own entrypoints.
@@ -35,6 +35,8 @@ defaultEntryPoints = ["http","https"]
 [entryPoints]
   [entryPoints.http]
   address = ":80"
+#    [entryPoints.http.redirect]
+#    entryPoint = "https"
   [entryPoints.https]
   address = ":443"
     [entryPoints.https.tls]
@@ -67,7 +69,7 @@ defaultEntryPoints = ["http","https"]
 #
 # Optional
 #
-[accessLog]
+# [accessLog]
 
 # Sets the file path for the access log. If not specified, stdout will be used.
 # Intermediate directories are created if necessary.
@@ -121,7 +123,7 @@ usersFile = "/.htpasswd"
 # Optional
 # Default: ""
 #
-domain = "traefik.shackster.uk"
+domain = "shackster.uk"
 
 # Enable watch docker changes.
 #
@@ -173,6 +175,8 @@ storage = "/acme/acme.json"
 # Required
 #
 entryPoint = "https"
+[acme.httpChallenge]
+  entryPoint = "http"
 
 # Use a DNS based acme challenge rather than external HTTPS access
 #

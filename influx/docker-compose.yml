@@ -29,6 +29,7 @@ services:
     environment:
       INFLUXDB_URL: http://influxdb:8086
       KAPACITOR_URL: http://kapacitor:9092
+    env_file: ./chronograf.oauth.env
     networks:
       - traefik-net
 

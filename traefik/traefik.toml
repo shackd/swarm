@@ -14,7 +14,7 @@
 # Optional
 # Default: "ERROR"
 #
-# logLevel = "ERROR"
+logLevel = "ERROR"
 
 # Entrypoints to be used by frontends that do not specify any entrypoint.
 # Each frontend can specify its own entrypoints.
@@ -23,18 +23,23 @@
 # Default: ["http"]
 #
 # defaultEntryPoints = ["http"]
-defaultEntryPoints = ["http"]
+defaultEntryPoints = ["http","https"]
 
 # Entrypoints definition
 #
 # Optional
 # Default:
 # [entryPoints]
-#   [entryPoints.http
+#   [entryPoints.http]
 #   address = ":80"
 [entryPoints]
   [entryPoints.http]
   address = ":80"
+#    [entryPoints.http.redirect]
+#    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
 
 # Traefik logs
 # Enabled by default and log to stdout
@@ -94,6 +99,10 @@ defaultEntryPoints = ["http"]
 #
 address = ":8080"
 
+# To enable basic auth on the webui with 2 user/pass: test:test and test2:test2
+[web.auth.basic]
+usersFile = "/.htpasswd"
+
 ################################################################
 # Docker configuration backend
 ################################################################
@@ -114,7 +123,7 @@ address = ":8080"
 # Optional
 # Default: ""
 #
-# domain = ""
+domain = "shackster.uk"
 
 # Enable watch docker changes.
 #
@@ -157,7 +166,7 @@ email = "dave@shackster.uk"
 #
 # Required
 #
-storage = "acme.json"
+storage = "/acme/acme.json"
 # or `storage = "traefik/acme/account"` if using KV store.
 
 # Entrypoint to proxy acme challenge/apply certificates to.
@@ -166,6 +175,8 @@ storage = "acme.json"
 # Required
 #
 entryPoint = "https"
+[acme.httpChallenge]
+  entryPoint = "http"
 
 # Use a DNS based acme challenge rather than external HTTPS access
 #
@@ -211,9 +222,10 @@ onHostRule = true
 
 # Domains list.
 #
-# [[acme.domains]]
-# main = "local1.com"
-# sans = ["test1.local1.com", "test2.local1.com"]
+#[[acme.domains]]
+#main = "shackster.uk"
+#sans = ["traefik.shackster.uk"]
+
 # [[acme.domains]]
 # main = "local2.com"
 # sans = ["test1.local2.com", "test2.local2.com"]

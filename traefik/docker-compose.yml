@@ -5,6 +5,9 @@ services:
     image: traefik:alpine
     deploy:
       replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
       labels:
         - "traefik.port=8080"
         - "traefik.frontend.rule=Host:traefik.shackster.uk"
@@ -12,19 +15,27 @@ services:
         - "traefik.docker.network=traefik-net"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - traefik_data:/acme.json
+      - traefik_data:/acme
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
     networks:
       - traefik-net
     configs:
       - source: traefik_toml
         target: /etc/traefik/traefik.toml
+    secrets:
+      - source: traefik_htpasswd
+        target: /.htpasswd
+
 configs:
   traefik_toml:
     file: ./traefik.toml
+
+secrets:
+  traefik_htpasswd:
+      file: ./htpasswd
+
 volumes:
   traefik_data:
     driver: "cloudstor:aws"

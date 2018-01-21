@@ -19,10 +19,10 @@ services:
     volumes:
       - "owntracks_data:/owntracks"
     networks:
-      - traefik-net
+      - mqtt-net
 volumes:
   owntracks_data:
     driver: "cloudstor:aws"
 networks:
-  traefik-net:
+  mqtt-net:
     external: true

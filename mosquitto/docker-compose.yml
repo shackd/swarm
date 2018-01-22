@@ -18,6 +18,20 @@ services:
     networks:
       - traefik-net
       - mqtt-net
+    configs:
+      - source: mosquitto_conf
+        target: /mosquitto/config/mosquitto.conf
+    secrets:
+      - source: mosquitto_passwd
+        target: /.passwd
+
+configs:
+  mosquitto_conf:
+    file: ./mosquitto.conf
+
+secrets:
+  mosquitto_passwd:
+      file: ./passwd
 
 volumes:
   mqtt_data:

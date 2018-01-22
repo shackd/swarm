@@ -1,6 +1,7 @@
 #! /bin/bash
 
 # Traefik
+cd traefik
 if [ ! "$(docker network ls | grep traefik-net)" ]; then
   echo "Creating traefik-net network ..."
   docker network create traefik-net  --driver overlay
@@ -9,9 +10,11 @@ else
 fi
 
 echo "Creating treafik stack ..."
-docker stack deploy -c traefik/docker-compose.yml traefik
+docker stack deploy -c ./docker-compose.yml traefik
+cd ..
 
 # Mosquitto
+cd mosquitto
 echo "Creating mosquitto stack ..."
 if [ ! "$(docker network ls | grep mqtt-net)" ]; then
   echo "Creating mqtt-net network ..."
@@ -19,12 +22,17 @@ if [ ! "$(docker network ls | grep mqtt-net)" ]; then
 else
   echo "mqtt-net network exists."
 fi
-docker stack deploy -c mosquitto/docker-compose.yml mosquitto
+docker stack deploy -c ./docker-compose.yml mosquitto
+cd ..
 
 # Influx TICK stack (minus telegrag, created first ...)
+cd influx
 echo "Creating influx stack ..."
-docker stack deploy -c influx/docker-compose.yml influx
+docker stack deploy -c ./docker-compose.yml influx
+cd ..
 
 # Owntracks
+cd owntracks
 echo "Creating owntracks stack ..."
-docker stack deploy -c owntracks/docker-compose.yml owntracks
+docker stack deploy -c ./docker-compose.yml owntracks
+cd ..

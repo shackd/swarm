@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   portainer:
-    image: portainer:latest
+    image: portainer/portainer
     command: "-H unix:///var/run/docker.sock"
     deploy:
       replicas: 1

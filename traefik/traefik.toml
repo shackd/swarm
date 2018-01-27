@@ -14,7 +14,7 @@
 # Optional
 # Default: "ERROR"
 #
-logLevel = "ERROR"
+# logLevel = "DEBUG"
 
 # Entrypoints to be used by frontends that do not specify any entrypoint.
 # Each frontend can specify its own entrypoints.
@@ -23,7 +23,7 @@ logLevel = "ERROR"
 # Default: ["http"]
 #
 # defaultEntryPoints = ["http"]
-defaultEntryPoints = ["http","https"]
+defaultEntryPoints = ["https","http"]
 
 # Entrypoints definition
 #
@@ -34,12 +34,14 @@ defaultEntryPoints = ["http","https"]
 #   address = ":80"
 [entryPoints]
   [entryPoints.http]
-  address = ":80"
-#    [entryPoints.http.redirect]
-#    entryPoint = "https"
+    address = ":80"
+    [entryPoints.http.redirect]
+      entryPoint = "https"
   [entryPoints.https]
-  address = ":443"
+    address = ":443"
     [entryPoints.https.tls]
+
+[retry]
 
 # Traefik logs
 # Enabled by default and log to stdout
@@ -175,8 +177,6 @@ storage = "/acme/acme.json"
 # Required
 #
 entryPoint = "https"
-[acme.httpChallenge]
-  entryPoint = "http"
 
 # Use a DNS based acme challenge rather than external HTTPS access
 #
@@ -210,7 +210,7 @@ entryPoint = "https"
 # Optional
 #
 # onHostRule = true
-onHostRule = true
+OnHostRule = true
 
 # CA server to use.
 # - Uncomment the line to run on the staging let's encrypt server.
@@ -233,3 +233,7 @@ onHostRule = true
 # main = "local3.com"
 # [[acme.domains]]
 # main = "local4.com"
+
+# Setup ACME http challenge per v1.5
+[acme.httpChallenge]
+  entryPoint = "http"

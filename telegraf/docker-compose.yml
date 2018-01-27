@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+
+  telegraf:
+    image: telegraf:alpine
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    configs:
+    - source: telegraf_conf
+      target: /etc/telegraf/telegraf.conf
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik-net
+      
+configs:
+  telegraf_conf:
+    file: ./telegraf.conf
+
+networks:
+  traefik-net:
+    external: true

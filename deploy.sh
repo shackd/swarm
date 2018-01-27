@@ -13,6 +13,12 @@ echo "Creating treafik stack ..."
 docker stack deploy -c ./docker-compose.yml traefik
 cd ..
 
+# Telegraf
+cd telegraf
+echo "Creating telegraf stack ..."
+docker stack deploy -c ./docker-compose.yml telegraf
+cd ..
+
 # Portainer
 cd portainer
 echo "Creating portainer stack ..."

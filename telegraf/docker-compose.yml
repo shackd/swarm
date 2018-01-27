@@ -14,7 +14,13 @@ services:
       target: /etc/telegraf/telegraf.conf
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
+    networks:
+      - traefik-net
+      
 configs:
   telegraf_conf:
     file: ./telegraf.conf
+
+networks:
+  traefik-net:
+    external: true

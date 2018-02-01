@@ -16,9 +16,14 @@ services:
         - "traefik.docker.network=traefik-net"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
     networks:
       - traefik-net
 
 networks:
   traefik-net:
     external: true
+
+volumes:
+  portainer_data:
+    driver: "cloudstor:aws"

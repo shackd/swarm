@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   mosquitto:
-    image: eclipse-mosquitto:latest
+    image: eclipse-mosquitto:1.4.12
     deploy:
       replicas: 1
       labels:

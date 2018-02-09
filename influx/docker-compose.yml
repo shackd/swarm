@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   influxdb:
-    image: influxdb:alpine
+    image: influxdb:1.4.3-alpine
     deploy:
       replicas: 1
       labels:
@@ -16,7 +16,7 @@ services:
       - traefik-net
 
   chronograf:
-    image: chronograf:alpine
+    image: chronograf:1.4.0.1-alpine
     deploy:
       replicas: 1
       labels:
@@ -34,7 +34,7 @@ services:
       - traefik-net
 
   kapacitor:
-    image: kapacitor:alpine
+    image: kapacitor:1.4.0-alpine
     deploy:
       replicas: 1
     volumes:
